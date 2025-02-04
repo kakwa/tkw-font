@@ -1,2 +1,2 @@
 # tkw-font
-Tiny 7 pixel bitmap font
+Tiny kakwa font, a 7 pixels bitmap font
