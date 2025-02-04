@@ -6,11 +6,10 @@ else
 RULE_INDEX=noindex
 endif
 
-fonts: tkwfont-7-n.pcf.gz
-
-
 %.pcf.gz: %.bdf
 	bdftopcf $^ | gzip > $@
+
+fonts: tkw-font-7-n.pcf.gz
 
 index:
 	mkfontdir $(DESTDIR)/$(FONTDIR)/
