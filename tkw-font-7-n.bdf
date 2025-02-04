@@ -8,9 +8,9 @@ FOUNDRY "kakwa"
 FACE_NAME "tkw"
 SETWIDTH_NAME "Normal"
 ADD_STYLE_NAME ""
-COPYRIGHT "Copyright (C) 2025 kakwa"
-WEIGHT_NAME "Medium"
-SLANT "R"
+COPYRIGHT "Copyright kakwalab (C) 2025"
+WEIGHT_NAME "normal"
+SLANT "r"
 PIXEL_SIZE 7
 POINT_SIZE 50
 RESOLUTION_X 96

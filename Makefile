@@ -7,18 +7,23 @@ RULE_INDEX=noindex
 endif
 
 # Convert BDF to PCF.GZ
-%.pcf.gz: %.bdf
+%.pcf: %.bdf
 	@echo "Generating $@"
-	bdftopcf $^ | gzip > $@
+	bdftopcf $^  > $@
+
+%.pcf.gz: %.pcf
+	@echo "Generating $@"
+	cat $^ | gzip > $@
 
 # Convert PCF to OTB (OpenType Bitmap)
-%.otb: %.bdf
+%.otb: %.pcf
 	@echo "Generating $@"
 	fonttosfnt -v -r -b -c -g 2 -m 2 -o $@ $^
 
 clean:
 	rm -f *.otb
 	rm -f *.pcf.gz
+	rm -f *.pcf
 
 # Build all fonts
 fonts: tkw-font-7-n.pcf.gz tkw-font-7-n.otb
