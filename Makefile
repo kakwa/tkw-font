@@ -1,4 +1,4 @@
-ONTDIR=/usr/share/fonts/X11/misc
+FONTDIR=/usr/share/fonts/opentype/tkw-font/
 
 ifeq ($(INDEX),true)
 RULE_INDEX=index
