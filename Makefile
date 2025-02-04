@@ -14,7 +14,11 @@ endif
 # Convert PCF to OTB (OpenType Bitmap)
 %.otb: %.bdf
 	@echo "Generating $@"
-	fonttosfnt -o $@ $^
+	fonttosfnt -v -r -b -c -g 2 -m 2 -o $@ $^
+
+clean:
+	rm -f *.otb
+	rm -f *.pcf.gz
 
 # Build all fonts
 fonts: tkw-font-7-n.pcf.gz tkw-font-7-n.otb
@@ -31,4 +35,4 @@ install-fonts: fonts
 
 install: install-fonts $(RULE_INDEX)
 
-.PHONY: all fonts install install-fonts index noindex
+.PHONY: all fonts install install-fonts index noindex clean
