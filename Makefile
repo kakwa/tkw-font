@@ -16,7 +16,7 @@ endif
 	cat $^ | gzip > $@
 
 # Convert PCF to OTB (OpenType Bitmap)
-%.otb: %.pcf
+%.otb: %.bdf
 	@echo "Generating $@"
 	fonttosfnt -v -r -b -c -g 2 -m 2 -o $@ $^
 
