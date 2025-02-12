@@ -1,18 +1,20 @@
-OPENTYPE_DIR=/usr/share/fonts/opentype/tkw-font/
-X11_DIR=/usr/share/fonts/X11/misc/
+PREFIX ?= /usr/local
+PENTYPE_DIR = $(PREFIX)/share/fonts/opentype/tkw-font/
+X11_DIR = $(PREFIX)/share/fonts/X11/misc/
+USER_FONT_DIR = $(HOME)/.fonts
 
 ifeq ($(INDEX),true)
-RULE_INDEX=index
+RULE_INDEX = index
 else
-RULE_INDEX=noindex
+RULE_INDEX = noindex
 endif
 
-default: fonts
+default: all-fonts
 
 # Convert BDF to PCF.GZ
 %.pcf: %.bdf
 	@echo "Generating $@"
-	bdftopcf $^  > $@
+	bdftopcf $^ > $@
 
 %.pcf.gz: %.pcf
 	@echo "Generating $@"
@@ -23,35 +25,49 @@ default: fonts
 	@echo "Generating $@"
 	fonttosfnt -v -b -c -g 2 -m 2 -o $@ $^
 
-
 %.otb: %.bdf
 	@echo "Generating $@"
-	fontforge -lang=ff -c 'Open("$^");Import("$^"); Generate("$@");Close ();'
+	fontforge -lang=ff -c 'Open("$^"); Import("$^"); Generate("$@"); Close ();'
+
+otb: %.otb
+
+ttf: %.ttf
+
+pcf.gz: %.pcf.gz
 
 clean:
-	rm -f *.ttf
-	rm -f *.otb
-	rm -f *.pcf.gz
-	rm -f *.pcf
+	rm -f *.ttf *.otb *.pcf.gz *.pcf
 
-# Build all fonts formats
-fonts: tkw-font-7-n.pcf.gz tkw-font-7-n.ttf tkw-font-7-n.otb
+# Build all font formats
+all-fonts: tkw-font-7-n.pcf.gz tkw-font-7-n.ttf tkw-font-7-n.otb
 
 index:
+ifeq ($(INSTALL_USER),true)
 	mkfontdir $(DESTDIR)/$(X11_DIR)/
+else
+	mkfontdir $(USER_FONT_DIR)
+endif
 
 rehash:
 	xset fp rehash
+	fc-cache -fvr
 
 noindex:
 
-install-fonts: fonts
-	mkdir -p $(DESTDIR)/$(OPENTYPE_DIR)/
-	install -m644 *.ttf $(DESTDIR)/$(OPENTYPE_DIR)/
-	install -m644 *.otb $(DESTDIR)/$(OPENTYPE_DIR)/
+install-fonts: all-fonts
+ifeq ($(INSTALL_USER),true)
+	mkdir -p $(USER_FONT_DIR)
+	install -m644 *.ttf $(USER_FONT_DIR)/
+	install -m644 *.otb $(USER_FONT_DIR)/
+	install -m644 *.pcf.gz $(USER_FONT_DIR)/
+else
+	mkdir -p $(DESTDIR)/$(PENTYPE_DIR)/
+	install -m644 *.ttf $(DESTDIR)/$(PENTYPE_DIR)/
+	install -m644 *.otb $(DESTDIR)/$(PENTYPE_DIR)/
 	mkdir -p $(DESTDIR)/$(X11_DIR)/
 	install -m644 *.pcf.gz $(DESTDIR)/$(X11_DIR)/
+endif
 
 install: install-fonts $(RULE_INDEX)
 
-.PHONY: all fonts install install-fonts index noindex rehash clean default
+.PHONY: all all-fonts install install-fonts index noindex rehash clean default otb ttf pcf.gz

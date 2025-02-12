@@ -1,28 +1,83 @@
 # tkw-font
-Tiny kakwa font, a 7 pixels bitmap font.
+
+Tiny kakwa font, a really small 7 pixels bitmap font.
 
 ![tkw-font Screenshot](https://raw.githubusercontent.com/kakwa/tkw-font/refs/heads/main/misc/screenshot.png)
 
-## Makefile Documentation
+# Generate & Install
 
-The `Makefile` included in this repository provides various commands to manage the font files. Below is a brief description of each target:
+## Prerequisites
 
-- **default**: Alias for the `fonts` target.
-- **fonts**: Builds all font files (`tkw-font-7-n.pcf.gz` and `tkw-font-7-n.ttf`).
-- **clean**: Removes all generated font files (`*.ttf`, `*.pcf.gz`, and `*.pcf`).
-- **install**: Installs the font files to the system directories and optionally creates font indexes.
-- **install-fonts**: Installs the font files to the system directories (`/usr/share/fonts/opentype/tkw-font/` and `/usr/share/fonts/X11/misc/`).
-- **index**: Creates font indexes in the X11 font directory.
-- **noindex**: Placeholder target for installations without indexing.
-- **rehash**: Rehashes the X11 font path.
-
-To build the font files:
+### macOS
 ```sh
-make fonts
+brew install fontforge font-util
 ```
 
-To install the font files:
+### Debian/Ubuntu
+```sh
+sudo apt install fontforge xfonts-utils
+```
+
+## Targets
+
+### Build Targets
+- `all-fonts` - Generate all formats `PCF.GZ`, `TTF`, and `OTB` formats.
+- `pcf` - Generate `PCF`
+- `pcf.gz` - Generate `PCF.GZ`
+- `ttf` - Generate TrueType font (`TTF`).
+- `otb` - Generate OpenType Bitmap (`OTB`).
+
+### Utility Targets
+- `clean` - Removes generated font files.
+- `index` - Creates an X11 font index in the font directory.
+- `rehash` - Refreshes the X11 font cache.
+- `noindex` - No-op target used in conditional rules.
+
+## Installation
+
+### System-wide Installation
+
+As Root:
+```sh
+make install PREFIX=/usr
+```
+This installs fonts to `/usr/local/share/fonts/`.
+
+### User Installation (Non-root)
+
+As User:
+```sh
+make install INSTALL_USER=true
+```
+This installs fonts to `~/.fonts/`.
+
+## Fontconfig
+
+You can test the availability of the font with the following commands:
 
 ```sh
-make install
+# Check presence in X11
+xlsfonts | grep tkw
+```
+
+```sh
+# Check Presence in Wayland/fontconfig
+fc-list | grep tkw
+```
+
+If you encounter issues, install `misc/71-enable-tkw-font.conf` in the appropriate directory (`/etc/fonts/conf.d` on Debian).
+
+And then, rescan the fonts `fc-cache -fvr`.
+
+# Using
+
+## XTerm
+
+```sh
+xterm -bg black -fg white -fn -tkw-tkw-r-normal--7-70-72-72-c-40-iso8859-1 -fb -tkw-tkw-r-normal--7-70-72-72-c-40-iso8859-1
+```
+
+## Foot
+```sh
+foot --font tkw:size=5
 ```
