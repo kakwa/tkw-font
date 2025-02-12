@@ -43,9 +43,9 @@ all-fonts: tkw-font-7-n.pcf.gz tkw-font-7-n.ttf tkw-font-7-n.otb
 
 index:
 ifeq ($(INSTALL_USER),true)
-	mkfontdir $(DESTDIR)/$(X11_DIR)/
-else
 	mkfontdir $(USER_FONT_DIR)
+else
+	mkfontdir $(DESTDIR)/$(X11_DIR)/
 endif
 
 rehash:
