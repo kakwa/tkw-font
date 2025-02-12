@@ -81,12 +81,19 @@ X11:
 ```sh
 # Check font path:
 xset q
+
+# Optionally add your ~/.fonts to X font path
+xset +fp ~/.fonts/
+
 # Check presence in X11
 xlsfonts | grep tkw
 ```
 
 Fontconfig:
 ```sh
+# Check fontconfig font path:
+fc-cache -v | grep -v '^/'
+
 # Check Presence in Wayland/fontconfig
 fc-list | grep tkw
 ```
