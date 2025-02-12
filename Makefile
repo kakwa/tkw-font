@@ -1,5 +1,5 @@
 PREFIX ?= /usr/local
-PENTYPE_DIR = $(PREFIX)/share/fonts/opentype/tkw-font/
+OPENTYPE_DIR = $(PREFIX)/share/fonts/opentype/tkw-font/
 X11_DIR = $(PREFIX)/share/fonts/X11/misc/
 USER_FONT_DIR = $(HOME)/.fonts
 
@@ -11,7 +11,7 @@ endif
 
 default: all-fonts
 
-# Convert BDF to PCF.GZ
+# Convert BDF to PCF
 %.pcf: %.bdf
 	@echo "Generating $@"
 	bdftopcf $^ > $@
@@ -21,25 +21,21 @@ default: all-fonts
 	cat $^ | gzip > $@
 
 # Convert PCF to OTB (OpenType Bitmap)
-%.ttf: %.bdf
-	@echo "Generating $@"
-	fonttosfnt -v -b -c -g 2 -m 2 -o $@ $^
-
 %.otb: %.bdf
 	@echo "Generating $@"
 	fontforge -lang=ff -c 'Open("$^"); Import("$^"); Generate("$@"); Close ();'
 
-otb: %.otb
+otb: tkw-font-7-n.otb
 
-ttf: %.ttf
+pcf.gz: tkw-font-7-n.pcf.gz
 
-pcf.gz: %.pcf.gz
+pcf: tkw-font-7-n.pcf
 
 clean:
-	rm -f *.ttf *.otb *.pcf.gz *.pcf
+	rm -f *.otb *.pcf.gz *.pcf
 
 # Build all font formats
-all-fonts: tkw-font-7-n.pcf.gz tkw-font-7-n.ttf tkw-font-7-n.otb
+all-fonts: otb pcf pcf.gz
 
 index:
 ifeq ($(INSTALL_USER),true)
@@ -57,17 +53,15 @@ noindex:
 install-fonts: all-fonts
 ifeq ($(INSTALL_USER),true)
 	mkdir -p $(USER_FONT_DIR)
-	install -m644 *.ttf $(USER_FONT_DIR)/
 	install -m644 *.otb $(USER_FONT_DIR)/
 	install -m644 *.pcf.gz $(USER_FONT_DIR)/
 else
-	mkdir -p $(DESTDIR)/$(PENTYPE_DIR)/
-	install -m644 *.ttf $(DESTDIR)/$(PENTYPE_DIR)/
-	install -m644 *.otb $(DESTDIR)/$(PENTYPE_DIR)/
+	mkdir -p $(DESTDIR)/$(OPENTYPE_DIR)/
+	install -m644 *.otb $(DESTDIR)/$(OPENTYPE_DIR)/
 	mkdir -p $(DESTDIR)/$(X11_DIR)/
 	install -m644 *.pcf.gz $(DESTDIR)/$(X11_DIR)/
 endif
 
 install: install-fonts $(RULE_INDEX)
 
-.PHONY: all all-fonts install install-fonts index noindex rehash clean default otb ttf pcf.gz
+.PHONY: all all-fonts install install-fonts index noindex rehash clean default otb pcf pcf.gz
