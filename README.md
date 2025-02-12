@@ -1,6 +1,6 @@
 # tkw-font
 
-Tiny kakwa font, a really small 7 pixels bitmap font.
+Tiny kakwa font, a really small 7 pixels monospace bitmap font.
 
 ![tkw-font Screenshot](https://raw.githubusercontent.com/kakwa/tkw-font/refs/heads/main/misc/screenshot.png)
 
@@ -21,10 +21,9 @@ sudo apt install fontforge xfonts-utils
 ## Targets
 
 ### Build Targets
-- `all-fonts` - Generate all formats `PCF.GZ`, `TTF`, and `OTB` formats.
+- `all-fonts` - Generate all formats `PCF.GZ`, `PCF`, and `OTB` formats.
 - `pcf` - Generate `PCF`
 - `pcf.gz` - Generate `PCF.GZ`
-- `ttf` - Generate TrueType font (`TTF`).
 - `otb` - Generate OpenType Bitmap (`OTB`).
 
 ### Utility Targets
