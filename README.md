@@ -1,12 +1,12 @@
-# TKW-font
+# TKW-Font
 
-Tiny kakwa font: a really small 7 pixels monospaced bitmap font.
+Tiny KakWa Font: a really small 7 pixels monospaced bitmap font.
 
 ![tkw-font Screenshot](https://raw.githubusercontent.com/kakwa/tkw-font/refs/heads/main/misc/screenshot.png)
 
 # License
 
-KakwaFont is licensed under the SIL Open Font License, Version 1.1.
+TKW-Font is licensed under the SIL Open Font License, Version 1.1.
 
 The license is available with a FAQ at [scripts.sil.org](http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL).
 
